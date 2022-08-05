@@ -1,4 +1,4 @@
-#include "monitoring_plugin_editor.hpp"
+﻿#include "monitoring_plugin_editor.hpp"
 
 #include "components/look_and_feel/colours.hpp"
 #include "components/look_and_feel/fonts.hpp"

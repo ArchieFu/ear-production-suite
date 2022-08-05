@@ -92,11 +92,18 @@ bool admplug::ImportAction::canMediaExplode_QuickCheck(const ReaperAPI & api, st
 {
     try {
         auto bw64File = bw64::readFile(mediaFile);
-        if (!bw64File->chnaChunk()) return false;
-        if (!bw64File->axmlChunk()) return false;
+        if (!bw64File->chnaChunk()) {
+            api.ShowMessageBox("Error during ADM Metadata extraction chnaChunk","ADM Metadata", 0);
+            return false;
+        }
+        if (!bw64File->axmlChunk()) {
+            api.ShowMessageBox("Error during ADM Metadata extraction axmlChunk","ADM Metadata", 0);
+            return false;
+        }
     }
-    catch (const std::runtime_error&) {
+    catch (const std::runtime_error& e) {
         // Probably not RIFF/BW64/RF64 or not WAVE.
+        api.ShowMessageBox(e.what(), "ADM Metadata", 0);
         return false;
     }
     return true;

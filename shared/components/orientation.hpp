@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "JuceHeader.h"
 #include "look_and_feel/colours.hpp"

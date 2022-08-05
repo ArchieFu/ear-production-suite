@@ -42,6 +42,9 @@ enum class EarObjectParameters {
     DIVERGENCE, // Since the next 2 params are not supported by libadm yet, this is irrelevant
     DIVERGENCE_FACTOR, // Not supported by libadm yet
     DIVERGENCE_RANGE, // Not supported by libadm yet
+	X_Coordinate,		// wanos plugin object parameter
+	Y_Coordinate,		// wanos plugin object parameter
+	Z_Coordinate,		// wanos plugin object parameter
     NUM_PARAMETERS
 };
 
@@ -84,6 +87,19 @@ std::vector<std::unique_ptr<PluginParameter>> createAutomatedObjectPluginParamet
     parameters.push_back(createPluginParameter(static_cast<int>(EarObjectParameters::DIFFUSE),
                                                AdmParameter::OBJECT_DIFFUSE,
                                                { 0.0, 1.0 }));
+
+	//======================== wanos plugin object parameter==================================
+	parameters.push_back(createPluginParameter(static_cast<int>(EarObjectParameters::X_Coordinate),
+											   AdmParameter::OBJECT_X,
+											   { -100.0, 100.0 }));
+	parameters.push_back(createPluginParameter(static_cast<int>(EarObjectParameters::Y_Coordinate),
+											   AdmParameter::OBJECT_Y,
+											   { -100.0, 100.0 }));
+	parameters.push_back(createPluginParameter(static_cast<int>(EarObjectParameters::Z_Coordinate),
+											   AdmParameter::OBJECT_Z,
+											   { 0.0, 100.0 }));
+	//========================================================================================
+
 //        parameters.push_back(createPluginParameter(static_cast<int>(EarObjectParameters::DIVERGENCE),
 //                                                   AdmParameter::OBJECT_DIVERGENCE,
 //                                                   {0.0, 1.0}));
@@ -167,6 +183,7 @@ const char* EARPluginSuite::DIRECTSPEAKERS_METADATA_PLUGIN_NAME = "EAR DirectSpe
 const char* EARPluginSuite::HOA_METADATA_PLUGIN_NAME = "EAR HOA";
 const char* EARPluginSuite::SCENEMASTER_PLUGIN_NAME = "EAR Scene";
 const char* EARPluginSuite::RENDERER_PLUGIN_NAME = "EAR Monitoring 0+2+0";
+const char* EARPluginSuite::WANOS_PLUGIN_NAME = "WanosPlugin";
 const int EARPluginSuite::MAX_CHANNEL_COUNT = 64;
 
 bool EARPluginSuite::registered = PluginRegistry::getInstance()->registerSupportedPluginSuite("EAR", std::make_shared<EARPluginSuite>());
@@ -214,6 +231,7 @@ void EARPluginSuite::onCreateProject(const ProjectNode&, const ReaperAPI & api)
 {
 	std::vector<UniqueValueAssigner::SearchCandidate> trackMappingAssignerSearches;
 	trackMappingAssignerSearches.push_back(UniqueValueAssigner::SearchCandidate{ OBJECT_METADATA_PLUGIN_NAME, determineUsedObjectTrackMappingValues });
+	trackMappingAssignerSearches.push_back(UniqueValueAssigner::SearchCandidate{ WANOS_PLUGIN_NAME, determineUsedObjectTrackMappingValues });
 	trackMappingAssignerSearches.push_back(UniqueValueAssigner::SearchCandidate{ DIRECTSPEAKERS_METADATA_PLUGIN_NAME, determineUsedDirectSpeakersTrackMappingValues });
 	trackMappingAssignerSearches.push_back(UniqueValueAssigner::SearchCandidate{ HOA_METADATA_PLUGIN_NAME, determineUsedHoaTrackMappingValues });
 	trackMappingAssigner = std::make_unique<UniqueValueAssigner>(trackMappingAssignerSearches, 0, TRACK_MAPPING_MAX, api);
@@ -284,7 +302,8 @@ void EARPluginSuite::onObjectAutomation(const ObjectAutomation & automationEleme
 		track->setName(channelName);
 	}
 
-	auto plugin = track->createPlugin(OBJECT_METADATA_PLUGIN_NAME);
+	//auto plugin = track->createPlugin(OBJECT_METADATA_PLUGIN_NAME); 
+	auto plugin = track->createPlugin(WANOS_PLUGIN_NAME);
 
 	if (plugin) {
 		for (auto& parameter : automatedObjectPluginParameters()) {
@@ -319,7 +338,8 @@ void EARPluginSuite::onDirectSpeakersAutomation(const DirectSpeakersAutomation &
     // Can only do this in onDirectSpeakersAutomation because we need the packformat and a channelformats first blockformat
     // NOTE: This will run for every leg, so don't duplicate effort!
     auto track = automationElement.getTrack();
-    auto plugin = track->getPlugin(DIRECTSPEAKERS_METADATA_PLUGIN_NAME);
+    //auto plugin = track->getPlugin(DIRECTSPEAKERS_METADATA_PLUGIN_NAME);
+	auto plugin = track->getPlugin(WANOS_PLUGIN_NAME);
     auto packFormat = automationElement.channel().packFormat();
     assert(packFormat);
 
@@ -333,8 +353,9 @@ void EARPluginSuite::onDirectSpeakersAutomation(const DirectSpeakersAutomation &
             }
         }
 
-        if(speakerLayoutIndex >= 0) {
-            plugin = track->createPlugin(DIRECTSPEAKERS_METADATA_PLUGIN_NAME);
+		if (speakerLayoutIndex >= 0) {
+            //plugin = track->createPlugin(DIRECTSPEAKERS_METADATA_PLUGIN_NAME);
+			plugin = track->createPlugin(WANOS_PLUGIN_NAME);
             auto takeChannels = automationElement.takeChannels();
             auto channelCountTake = static_cast<int>(takeChannels.size());
             auto channelCountPackFormat = packFormat->getReferences<adm::AudioChannelFormat>().size();
@@ -424,7 +445,8 @@ bool EARPluginSuite::pluginSuiteUsable(const ReaperAPI &api)
 			DIRECTSPEAKERS_METADATA_PLUGIN_NAME,
 			HOA_METADATA_PLUGIN_NAME,
 			SCENEMASTER_PLUGIN_NAME,
-			RENDERER_PLUGIN_NAME
+			RENDERER_PLUGIN_NAME,
+			WANOS_PLUGIN_NAME
 		},
 		api);
 }

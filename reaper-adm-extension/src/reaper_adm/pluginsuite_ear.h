@@ -38,6 +38,7 @@ public:
 	static const char* HOA_METADATA_PLUGIN_NAME;
 	static const char* SCENEMASTER_PLUGIN_NAME;
 	static const char* RENDERER_PLUGIN_NAME;
+	static const char* WANOS_PLUGIN_NAME;
 
 private:
 	std::vector<std::unique_ptr<PluginParameter>> const& automatedObjectPluginParameters();

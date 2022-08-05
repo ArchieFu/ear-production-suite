@@ -14,6 +14,8 @@ std::optional<double> admplug::getAdmParameterDefault(AdmParameter admParameter)
     // TODO: Should probably be a map, or AdmParameter should be a class or something...
     // TODO: These defaults should be extracted from libadm
     if(admParameter == AdmParameter::OBJECT_DISTANCE) return { 1.0 };
+    if (admParameter == AdmParameter::OBJECT_X) return { 0.0 };
+    if (admParameter == AdmParameter::OBJECT_Y) return { 0.0 };
     if(admParameter == AdmParameter::OBJECT_Z) return { 0.0 };
     if(admParameter == AdmParameter::OBJECT_HEIGHT) return { 0.0 };
     if(admParameter == AdmParameter::OBJECT_WIDTH) return { 0.0 };

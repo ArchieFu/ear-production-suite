@@ -217,6 +217,22 @@ static const std::vector<SpeakerSetup> SPEAKER_SETUPS = {
       Speaker{"AC_00010010", "Ltr", "U+110", 110.f, 45.f, Layer::upper, false, false},
       Speaker{"AC_00010012", "Rtr", "U-110", -110.f, 45.f, Layer::upper, false, false}
     }, 4),
+          
+  // wanos Bed 5.1.4
+  SpeakerSetup(
+    "4+5+0", "9.1 5.1+4H", "BS.2051", "5.1+4H", "AP_00011001",
+     std::vector<Speaker>{
+      Speaker{ "AC_00010001", "L", "M+030", 30.f, 0.f, Layer::middle, false, false },
+      Speaker{ "AC_00011002", "R", "M-030", -30.f, 0.f, Layer::middle, false, false },
+      Speaker{ "AC_00011003", "C", "M+000", 0.f, 0.f, Layer::middle, false, false },
+      Speaker{ "AC_00011004", "LFE", "LFE1", 45.f, -30.f, Layer::bottom, true, false },
+      Speaker{ "AC_00011005", "Ls", "M+110", 110.f, 0.f, Layer::middle, false, false },
+      Speaker{ "AC_00011006", "Rs", "M-110", -110.f, 0.f, Layer::middle, false, false },
+      Speaker{ "AC_00011007", "Ltf", "U+030", 30.f, 45.f, Layer::upper, false, false },
+      Speaker{ "AC_00011008", "Rtf", "U-030", -30.f, 45.f, Layer::upper, false, false },
+      Speaker{ "AC_00011009", "Ltr", "U+110", 110.f, 45.f, Layer::upper, false, false },
+      Speaker{ "AC_0001100A", "Rtr", "U-110", -110.f, 45.f, Layer::upper, false, false }
+    }, 4),
 
   SpeakerSetup(
     "4+5+1", "10.1", "BS.2051", "10.1", "AP_00010010",

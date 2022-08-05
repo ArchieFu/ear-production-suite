@@ -143,7 +143,7 @@ target_link_libraries(ear-plugin-base PUBLIC
   ear
   bear
   Boost::boost
-  protobuf::libprotobuf
+  ${PROTOBUF_LIBRARIES}
   nng::nng
   spdlog::spdlog
   bw64

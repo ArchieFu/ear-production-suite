@@ -430,7 +430,8 @@ std::vector<std::shared_ptr<PluginInstance>> EarVstExportSources::getEarInputPlu
 
 //EarInputVst
 
-std::string EarInputVst::directSpeakersVstName = admplug::EARPluginSuite::DIRECTSPEAKERS_METADATA_PLUGIN_NAME;
+//std::string EarInputVst::directSpeakersVstName = admplug::EARPluginSuite::DIRECTSPEAKERS_METADATA_PLUGIN_NAME;
+std::string EarInputVst::directSpeakersVstName = admplug::EARPluginSuite::WANOS_PLUGIN_NAME;
 std::string EarInputVst::directSpeakersVstCompName = "";
 size_t EarInputVst::directSpeakersVstCompNameLen = 0;
 const char* EarInputVst::directSpeakersVstCompNameCStr = nullptr;
@@ -481,7 +482,8 @@ bool EarInputVst::vstPosIsDirectSpeakersVst(ReaperAPI const& api, MediaTrack *tr
     return (strcmp(name, getDirectSpeakersVstCompName()) == 0);
 }
 
-std::string EarInputVst::objectVstName = admplug::EARPluginSuite::OBJECT_METADATA_PLUGIN_NAME;
+//std::string EarInputVst::objectVstName = admplug::EARPluginSuite::OBJECT_METADATA_PLUGIN_NAME;
+std::string EarInputVst::objectVstName = admplug::EARPluginSuite::WANOS_PLUGIN_NAME;
 std::string EarInputVst::objectVstCompName = "";
 size_t EarInputVst::objectVstCompNameLen = 0;
 const char* EarInputVst::objectVstCompNameCStr = nullptr;
